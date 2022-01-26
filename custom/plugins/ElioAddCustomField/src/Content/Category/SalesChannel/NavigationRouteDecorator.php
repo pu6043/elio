@@ -43,7 +43,7 @@ class NavigationRouteDecorator extends AbstractNavigationRoute
        $navigation = $this->getDecorated()->load($activeId, $rootId, $request, $context, $criteria);
         $dates = $navigation->getCategories()->getElements();
         foreach ($dates as $date){
-          
+
         }
 
        return $navigation;
