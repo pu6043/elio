@@ -2,11 +2,13 @@
 
 namespace Elio\AddCustomField\Content\Category\SalesChannel;
 
+use Elio\AddCustomField\Content\Category\Exception\CategoryNotActiveException;
 use phpDocumentor\Reflection\PseudoTypes\True_;
 use Shopware\Core\Content\Category\SalesChannel\AbstractCategoryRoute;
 use Shopware\Core\Content\Category\SalesChannel\CategoryRouteResponse;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\Request;
+use function PHPUnit\Framework\throwException;
 
 class CategoryRouteDecorator extends AbstractCategoryRoute
 {
@@ -37,13 +39,13 @@ class CategoryRouteDecorator extends AbstractCategoryRoute
 
             if ($startDate) {
                 if ($startDate > $date) {
-                    $category->getCategory()->setActive(false);
+                     throw new CategoryNotActiveException($category->getCategory()->getId());
                 }
             }
 
             if ($endDate) {
                 if ($date > $endDate) {
-                    $category->getCategory()->setActive(false);
+                    throw new CategoryNotActiveException($category->getCategory()->getId());
                 }
             }
         }
