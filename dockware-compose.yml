@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+    shopware:
+        image: eliosystemsrf/armdockware
+        ports:
+            - "80:80"
+            - "22:22"
+            - "3000:3000"
+            - "3306:3306"
+            - "8888:8888"
+            - "9998:9998"
+            - "9999:9999"
+            - "1025:1025"
+        volumes:
+            - "db_volume:/var/lib/mysql"
+            - "shop_volume:/var/www/html"
+        networks:
+            - web
+        environment:
+            - XDEBUG_ENABLED=1
+            - PHP_VERSION=8.0
+
+#    elasticsearch:
+#        image: elasticsearch:7.5.2
+#        container_name: elasticsearch
+#        networks:
+#            - web
+#        environment:
+#            - "EA_JAVA_OPTS=-Xms512m -Xms512m"
+#            - discovery.type=single-node
+#        ports:
+#            - 9200:9200
+#            - 9300:9300
+
+volumes:
+    db_volume:
+        driver: local
+    shop_volume:
+        driver: local
+
+networks:
+    web:
+        external: false
