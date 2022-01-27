@@ -4,6 +4,7 @@ namespace Elio\AddCustomField\Content\Category\SalesChannel;
 
 use Elio\AddCustomField\Content\Category\Exception\CategoryNotActiveException;
 use phpDocumentor\Reflection\PseudoTypes\True_;
+use phpDocumentor\Reflection\Types\Array_;
 use Shopware\Core\Content\Category\CategoryEntity;
 use Shopware\Core\Content\Category\SalesChannel\AbstractCategoryRoute;
 use Shopware\Core\Content\Category\SalesChannel\AbstractNavigationRoute;
@@ -23,7 +24,7 @@ class NavigationRouteDecorator extends AbstractNavigationRoute
 
     public function __construct(AbstractNavigationRoute $abstractNavigationRoute)
     {
-       $this->abstractNavigationRoute = $abstractNavigationRoute;
+        $this->abstractNavigationRoute = $abstractNavigationRoute;
     }
 
     public function getDecorated(): AbstractNavigationRoute
@@ -33,19 +34,39 @@ class NavigationRouteDecorator extends AbstractNavigationRoute
 
 
     public function load(
-        string $activeId,
-        string $rootId,
-        Request $request,
+        string              $activeId,
+        string              $rootId,
+        Request             $request,
         SalesChannelContext $context,
-        Criteria $criteria
+        Criteria            $criteria
     ): NavigationRouteResponse
     {
-       $navigation = $this->getDecorated()->load($activeId, $rootId, $request, $context, $criteria);
+        $navigation = $this->getDecorated()->load($activeId, $rootId, $request, $context, $criteria);
         $dates = $navigation->getCategories()->getElements();
-        foreach ($dates as $date){
 
+        $dateNow = strtotime(date('Y-m-d H:i:s'));
+
+        foreach ($dates as $date) {
+            if ($date->getCustomFields()) {
+                $startDate = strtotime($date->getCustomFields()['elio_category_extension_period_date_start']);
+                $endDate = strtotime($date->getCustomFields()['elio_category_extension_period_date_end']);
+
+                if ($startDate) {
+                    if ($startDate > $dateNow) {
+                        $date->addExtension('pageActive', $date);
+                    }
+                }
+
+                if ($endDate) {
+                    if ($dateNow > $endDate) {
+                        $date->addExtension('pageActive', $date);
+                    }
+                }
+
+
+            }
         }
 
-       return $navigation;
+        return $navigation;
     }
 }
