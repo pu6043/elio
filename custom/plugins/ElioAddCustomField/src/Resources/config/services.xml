@@ -7,16 +7,22 @@
     <services>
         <service id="Elio\AddCustomField\Content\Category\SalesChannel\CategoryRouteDecorator"
                  decorates="Shopware\Core\Content\Category\SalesChannel\CategoryRoute">
-            <argument type="service" id="Elio\AddCustomField\Content\Category\SalesChannel\CategoryRouteDecorator.inner"/>
+            <argument type="service"
+                      id="Elio\AddCustomField\Content\Category\SalesChannel\CategoryRouteDecorator.inner"/>
         </service>
 
         <service id="Elio\AddCustomField\Content\LandingPage\SalesChannel\LandingPageRouteDecorator"
                  decorates="Shopware\Core\Content\LandingPage\SalesChannel\LandingPageRoute">
-            <argument type="service" id="Elio\AddCustomField\Content\LandingPage\SalesChannel\LandingPageRouteDecorator.inner"/>
+            <argument type="service"
+                      id="Elio\AddCustomField\Content\LandingPage\SalesChannel\LandingPageRouteDecorator.inner"/>
         </service>
-        <service id="Elio\AddCustomField\Content\Category\SalesChannel\NavigationRouteDecorator"
-                 decorates="Shopware\Core\Content\Category\SalesChannel\NavigationRoute">
-            <argument type="service" id="Elio\AddCustomField\Content\Category\SalesChannel\NavigationRouteDecorator.inner"/>
+
+        <service id="Elio\AddCustomField\Subscriber\categoriesCustomFieldSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Elio\AddCustomField\Subscriber\LandingPageCustomFieldSubscriber">
+            <tag name="kernel.event_subscriber"/>
         </service>
 
     </services>

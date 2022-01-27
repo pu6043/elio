@@ -7,7 +7,6 @@ use Shopware\Core\Content\LandingPage\SalesChannel\AbstractLandingPageRoute;
 use Shopware\Core\Content\LandingPage\SalesChannel\LandingPageRouteResponse;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\HttpFoundation\Request;
-use function PHPUnit\Framework\throwException;
 
 class LandingPageRouteDecorator extends AbstractLandingPageRoute
 {
@@ -31,29 +30,10 @@ class LandingPageRouteDecorator extends AbstractLandingPageRoute
 
         $landingpage = $this->getDecorated()->load($landingPageId, $request, $context);
 
-
-        $dates = $landingpage->getLandingPage()->getCustomFields();
-
-        if ($dates) {
-            $startDate = strtotime($dates['elio_category_extension_period_date_start']);
-            $endDate = strtotime($dates['elio_category_extension_period_date_end']);
-            $date = strtotime(date('Y-m-d H:i:s'));
-
-            if ($startDate) {
-                if ($startDate > $date) {
-                    throw new LandingPageNotActiveException($landingPageId);
-                }
-            }
-
-            if ($endDate) {
-                if ($date > $endDate) {
-
-                   throw new LandingPageNotActiveException($landingPageId);
-                }
-            }
+        if ($landingpage->getLandingPage()->getExtension('pageActive')) {
+            throw new LandingPageNotActiveException($landingpage->getLandingPage()->getId());
         }
 
         return $landingpage;
     }
-
 }
