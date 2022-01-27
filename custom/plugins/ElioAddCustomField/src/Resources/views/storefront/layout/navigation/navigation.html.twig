@@ -12,7 +12,8 @@
             </div>
         </div>
     {% else %}
-        <a class="nav-link main-navigation-link{% if category.id == page.header.navigation.active.id or category.id in activePath %} active {% endif %} {% if category.extensions.pageActive is not null %} disabled {% endif %}"
+        {% if config('ElioAddCustomField.config.menuLink') == true and category.extensions.pageActive is  null %}
+        <a class="nav-link main-navigation-link{% if category.id == page.header.navigation.active.id or category.id in activePath %} active {% endif %} "
            href="{{ category_url(category) }}"
            itemprop="url"
            {% if treeItem.children|length > 0 %}data-flyout-menu-trigger="{{ category.id }}"{% endif %}
@@ -22,6 +23,19 @@
                 <span itemprop="name">{{ name }}</span>
             </div>
         </a>
+    {% endif %}
+        {% if config('ElioAddCustomField.config.menuLink') == false  %}
+            <a class="nav-link main-navigation-link{% if category.id == page.header.navigation.active.id or category.id in activePath %} active {% endif %} {% if category.extensions.pageActive is not null %} disabled {% endif %}"
+               href="{{ category_url(category) }}"
+               itemprop="url"
+               {% if treeItem.children|length > 0 %}data-flyout-menu-trigger="{{ category.id }}"{% endif %}
+                    {% if category_linknewtab(category) %}target="_blank"{% endif %}
+               title="{{ name }}">
+                <div class="main-navigation-link-text">
+                    <span itemprop="name">{{ name }}</span>
+                </div>
+            </a>
+        {% endif %}
     {% endif %}
 {% endblock %}
 

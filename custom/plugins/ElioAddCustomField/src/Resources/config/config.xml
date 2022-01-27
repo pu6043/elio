@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Menu link configuration</title>
+        <input-field type="checkbox">
+            <name>menuLink</name>
+            <lable>Make the categories Invisible</lable>
+            <lable lang="de-DE">Die Kategorien unsichtbar machen </lable>
+            <helpText> If check box is selected the the categories that are not in the the selected time period in custom filed are not visible in the Navigation menu. </helpText>
+            <helpText lang="de-DE"> Wenn das Kontrollkästchen aktiviert ist, sind die Kategorien, die sich nicht im ausgewählten Zeitraum im benutzerdefinierten Feld befinden, im Navigationsmenü nicht sichtbar.</helpText>
+        </input-field>
+    </card>
+</config>
