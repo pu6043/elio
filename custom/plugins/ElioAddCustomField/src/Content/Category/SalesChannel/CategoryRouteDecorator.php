@@ -30,7 +30,7 @@ class CategoryRouteDecorator extends AbstractCategoryRoute
 
         $category = $this->getDecorated()->load($navigationId, $request, $context);
 
-        if ($category->getCategory()->getExtension('pageActive')) {
+        if ($category->getCategory()->hasExtension('pageActive')) {
             throw new CategoryNotActiveException($category->getCategory()->getId());
         }
 
